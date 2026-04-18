@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d0d0d">
 <title>150G — Protein Planner</title>
-<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;150G Protein Planner&quot;,&quot;short_name&quot;:&quot;150G&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0d0d0d&quot;,&quot;theme_color&quot;:&quot;#0d0d0d&quot;}">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -23,482 +21,303 @@
   --red: #ff4d4d;
   --orange: #ff9a3c;
   --blue: #8ec5f7;
-  --safe: env(safe-area-inset-bottom, 0px);
-}
-
-html, body {
-  height: 100%;
-  overflow: hidden;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  display: flex;
-  flex-direction: column;
-  max-width: 480px;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 1100px;
   margin: 0 auto;
-  position: relative;
+  padding: 0 32px 80px;
 }
 
-/* ── PAGES ── */
-.page { display: none; flex-direction: column; height: 100%; overflow: hidden; }
-.page.active { display: flex; }
-
-/* ── SCROLLABLE CONTENT ── */
-.scroll-area {
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: calc(80px + var(--safe));
-}
-
-/* ── HEADER ── */
-.top-bar {
-  padding: 52px 20px 16px;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
-.top-row {
+/* HEADER */
+header {
+  padding: 44px 0 28px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .logo {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 44px;
+  font-size: 68px;
   line-height: 1;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   color: var(--accent);
 }
 .logo span { color: var(--text); }
-
 .logo-sub {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
-.protein-count {
-  text-align: right;
-}
+.header-right { text-align: right; }
 .protein-num {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 36px;
+  font-size: 56px;
   line-height: 1;
   color: var(--accent);
 }
-.protein-label {
-  font-size: 10px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-}
+.protein-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
 
-/* ── PROGRESS ── */
-.prog-wrap { padding: 12px 20px 0; flex-shrink: 0; }
-.prog-track {
-  height: 5px;
-  background: var(--border);
-  border-radius: 999px;
-  overflow: hidden;
-  margin-bottom: 5px;
-}
+/* PROGRESS */
+.progress-section { padding: 22px 0 0; }
+.prog-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.prog-track { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
 .prog-fill {
-  height: 100%;
-  border-radius: 999px;
-  background: var(--accent);
+  height: 100%; border-radius: 999px; background: var(--accent);
   transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1), background 0.4s;
 }
-.prog-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: var(--muted);
+.over-warn { font-size: 12px; color: var(--orange); margin-top: 6px; }
+
+/* ACTION BAR */
+.action-bar {
+  display: flex; gap: 12px;
+  padding: 22px 0 26px;
+  flex-wrap: wrap;
 }
 
-/* ── SHUFFLE BTN ── */
-.shuffle-wrap { padding: 14px 20px 10px; flex-shrink: 0; }
 .btn-shuffle {
-  width: 100%;
-  padding: 16px;
+  flex: 1; min-width: 180px;
+  padding: 15px 24px;
   background: var(--accent);
   color: #0d0d0d;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 3px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
+  font-size: 22px; letter-spacing: 3px;
+  border: none; border-radius: 10px; cursor: pointer;
   transition: transform 0.12s, background 0.12s;
-  -webkit-user-select: none;
 }
-.btn-shuffle:active { transform: scale(0.97); background: #d6ff3d; }
+.btn-shuffle:hover { background: #d6ff3d; transform: translateY(-1px); }
+.btn-shuffle:active { transform: scale(0.97); }
 
-/* ── MEAL CARDS ── */
-.meals-list { padding: 0 16px; }
+.btn-save {
+  padding: 15px 28px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text); font-size: 14px; font-weight: 500;
+  cursor: pointer; white-space: nowrap;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn-save:hover { border-color: var(--accent); background: rgba(200,241,53,0.05); }
+.btn-save:active { transform: scale(0.98); }
+
+/* MAIN GRID */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* MEAL CARDS */
+.meals-col { display: flex; flex-direction: column; gap: 14px; }
 
 .meal-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  margin-bottom: 12px;
-  overflow: hidden;
-  transition: border-color 0.2s;
+  border-radius: 14px; overflow: hidden;
+  transition: border-color 0.2s, transform 0.15s;
 }
+.meal-card:hover { border-color: #3a3a3a; transform: translateY(-1px); }
 
 .meal-head {
-  padding: 11px 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 12px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
 }
-
 .meal-type-label {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 14px;
-  letter-spacing: 2px;
-  color: var(--muted);
+  font-size: 15px; letter-spacing: 2px; color: var(--muted);
 }
-
 .prot-badge {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: rgba(200,241,53,0.12);
-  color: var(--accent);
+  font-size: 12px; font-weight: 600;
+  padding: 3px 12px; border-radius: 999px;
+  background: rgba(200,241,53,0.12); color: var(--accent);
   border: 1px solid rgba(200,241,53,0.22);
 }
 
-.meal-body {
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.meal-emoji { font-size: 38px; line-height: 1; flex-shrink: 0; }
-
+.meal-body { padding: 18px; display: flex; align-items: center; gap: 16px; }
+.meal-emoji { font-size: 44px; line-height: 1; flex-shrink: 0; }
 .meal-info { flex: 1; min-width: 0; }
-
-.meal-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 3px;
-  line-height: 1.3;
-}
-
-.meal-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.meal-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 7px;
-}
-
+.meal-name { font-size: 19px; font-weight: 600; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+.meal-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.meal-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .tag {
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: var(--surface);
-  color: var(--muted);
-  border: 1px solid var(--border);
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em;
+  padding: 2px 8px; border-radius: 4px;
+  background: var(--surface); color: var(--muted); border: 1px solid var(--border);
 }
-
 .btn-reroll {
-  width: 40px;
-  height: 40px;
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  color: var(--muted);
-  flex-shrink: 0;
-  transition: border-color 0.12s, color 0.12s, transform 0.3s;
+  width: 42px; height: 42px; background: none;
+  border: 1px solid var(--border); border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 20px; color: var(--muted); flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s, transform 0.3s;
 }
-.btn-reroll:active { border-color: var(--accent); color: var(--accent); transform: rotate(180deg); }
+.btn-reroll:hover { border-color: var(--accent); color: var(--accent); }
+.btn-reroll:active { transform: rotate(180deg); }
 
-/* ── MACROS ── */
-.macros-card {
-  margin: 4px 16px 16px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px 16px;
+/* SIDEBAR */
+.sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 24px; }
+
+.side-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px;
 }
-.macros-title {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  margin-bottom: 12px;
+.side-title {
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted); margin-bottom: 16px;
 }
-.macros-row {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 8px;
-  text-align: center;
-}
-.macro-val {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 30px;
-  line-height: 1;
-}
+
+/* Macros */
+.macros-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; text-align: center; }
+.macro-val { font-family: 'Bebas Neue', sans-serif; font-size: 34px; line-height: 1; }
 .macro-val.p { color: var(--accent); }
 .macro-val.c { color: var(--orange); }
 .macro-val.f { color: var(--blue); }
-.macro-lbl {
-  font-size: 10px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 2px;
-}
+.macro-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
 
-/* ── HISTORY PAGE ── */
-.page-header {
-  padding: 52px 20px 16px;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.page-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 32px;
-  letter-spacing: 2px;
-  color: var(--text);
-}
-.page-sub {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 2px;
-}
+/* Breakdown */
+.meal-breakdown { display: flex; flex-direction: column; gap: 10px; }
+.breakdown-row { display: flex; align-items: center; gap: 10px; }
+.breakdown-label { font-size: 12px; color: var(--muted); text-transform: capitalize; width: 70px; flex-shrink: 0; }
+.breakdown-bar-wrap { flex: 1; height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.breakdown-bar { height: 100%; background: var(--accent); border-radius: 999px; transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+.breakdown-val { font-size: 12px; font-weight: 600; color: var(--text); width: 30px; text-align: right; flex-shrink: 0; }
 
-.empty-state {
-  text-align: center;
-  padding: 60px 24px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.8;
+/* History */
+.hist-list { display: flex; flex-direction: column; gap: 10px; }
+.hist-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 14px;
 }
-.empty-icon { font-size: 40px; margin-bottom: 12px; }
-
-.hist-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  margin: 16px 16px 0;
-  padding: 14px 16px;
-}
-.hist-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.hist-date { font-size: 13px; font-weight: 600; color: var(--text); }
-.hist-prot {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  color: var(--accent);
-}
-.hist-meals { font-size: 12px; color: var(--muted); line-height: 1.7; }
+.hist-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.hist-date { font-size: 12px; font-weight: 600; color: var(--text); }
+.hist-prot { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--accent); }
+.hist-meals { font-size: 11px; color: var(--muted); line-height: 1.7; }
 .btn-del {
   background: none; border: none; color: var(--muted);
-  font-size: 16px; cursor: pointer; padding: 4px 6px;
-  transition: color 0.12s;
+  font-size: 14px; cursor: pointer; padding: 2px 4px;
+  margin-left: 6px; transition: color 0.12s;
 }
-.btn-del:active { color: var(--red); }
+.btn-del:hover { color: var(--red); }
+.empty-hist { font-size: 13px; color: var(--muted); text-align: center; padding: 12px 0; line-height: 1.8; }
 
-.save-row {
-  padding: 10px 16px 4px;
-  flex-shrink: 0;
-}
-.btn-save {
-  width: 100%;
-  padding: 13px;
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: border-color 0.12s, background 0.12s;
-}
-.btn-save:active { border-color: var(--accent); background: rgba(200,241,53,0.06); }
-
-/* ── BOTTOM NAV ── */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 480px;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  display: flex;
-  padding-bottom: var(--safe);
-  z-index: 100;
-}
-.nav-btn {
-  flex: 1;
-  padding: 12px 8px 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  color: var(--muted);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  transition: color 0.15s;
-}
-.nav-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.nav-btn.active { color: var(--accent); }
-
-/* ── ANIMATIONS ── */
+/* ANIMATIONS */
 @keyframes pop-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-.pop { animation: pop-in 0.28s cubic-bezier(0.34,1.56,0.64,1) both; }
+.pop { animation: pop-in 0.25s cubic-bezier(0.34,1.56,0.64,1) both; }
 
-/* ── TOAST ── */
+/* TOAST */
 .toast {
-  position: fixed;
-  bottom: calc(72px + var(--safe) + 12px);
-  left: 50%;
+  position: fixed; bottom: 28px; left: 50%;
   transform: translateX(-50%) translateY(20px);
-  background: var(--accent);
-  color: #0d0d0d;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 10px 22px;
-  border-radius: 999px;
-  opacity: 0;
-  transition: opacity 0.2s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  z-index: 200;
-  white-space: nowrap;
-  pointer-events: none;
+  background: var(--accent); color: #0d0d0d;
+  font-size: 13px; font-weight: 600;
+  padding: 10px 24px; border-radius: 999px;
+  opacity: 0; transition: opacity 0.2s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  z-index: 200; pointer-events: none; white-space: nowrap;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ── OVER WARNING ── */
-.over-warn {
-  font-size: 11px;
-  color: var(--orange);
-  padding: 6px 20px 2px;
-  flex-shrink: 0;
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  .main-grid { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  /* On mobile, show macros+breakdown inline under meals, history last */
+}
+
+@media (max-width: 600px) {
+  .app { padding: 0 16px 60px; }
+  header { padding: 28px 0 18px; }
+  .logo { font-size: 46px; }
+  .protein-num { font-size: 40px; }
+  .action-bar { padding: 16px 0 18px; gap: 10px; }
+  .btn-shuffle { font-size: 19px; padding: 13px 18px; }
+  .btn-save { padding: 13px 18px; font-size: 13px; }
+  .meal-body { padding: 14px 14px; gap: 12px; }
+  .meal-emoji { font-size: 36px; }
+  .meal-name { font-size: 16px; }
+  .meal-desc { font-size: 12px; }
+  .btn-reroll { width: 38px; height: 38px; font-size: 17px; }
+  .macro-val { font-size: 28px; }
+}
+
+@media (max-width: 380px) {
+  .logo { font-size: 38px; }
+  .protein-num { font-size: 34px; }
 }
 </style>
 </head>
 <body>
+<div class="app">
 
-<!-- PAGE: TODAY -->
-<div class="page active" id="page-today">
-  <div class="top-bar">
-    <div class="top-row">
-      <div>
-        <div class="logo">150<span>G</span></div>
-        <div class="logo-sub">Daily Protein Planner</div>
-      </div>
-      <div class="protein-count">
-        <div class="protein-num" id="prot-num">0g</div>
-        <div class="protein-label">of 150g today</div>
-      </div>
+  <header>
+    <div>
+      <div class="logo">150<span>G</span></div>
+      <div class="logo-sub">Daily Protein Planner · Gym Mode</div>
     </div>
-  </div>
+    <div class="header-right">
+      <div class="protein-num" id="prot-num">0g</div>
+      <div class="protein-label">of 150g protein today</div>
+    </div>
+  </header>
 
-  <div class="prog-wrap">
-    <div class="prog-track">
-      <div class="prog-fill" id="prog-fill" style="width:0%"></div>
-    </div>
+  <div class="progress-section">
     <div class="prog-row">
       <span id="prog-pct">0% of goal</span>
       <span id="prog-remain">150g remaining</span>
     </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+    <div class="over-warn" id="over-warn" style="display:none">⚠ Over target — consider lighter options</div>
   </div>
 
-  <div class="over-warn" id="over-warn" style="display:none">⚠ Over target — consider lighter options</div>
-
-  <div class="shuffle-wrap">
+  <div class="action-bar">
     <button class="btn-shuffle" onclick="shuffleAll()">⚡ Shuffle My Meals</button>
+    <button class="btn-save" onclick="savePlan()">💾 Save Today's Plan</button>
   </div>
 
-  <div class="scroll-area">
-    <div class="meals-list" id="meals-list"></div>
+  <div class="main-grid">
+    <div class="meals-col" id="meals-col"></div>
 
-    <div class="macros-card">
-      <div class="macros-title">Today's estimated macros</div>
-      <div class="macros-row">
-        <div>
-          <div class="macro-val p" id="m-p">—</div>
-          <div class="macro-lbl">Protein (g)</div>
-        </div>
-        <div>
-          <div class="macro-val c" id="m-c">—</div>
-          <div class="macro-lbl">Carbs (g)</div>
-        </div>
-        <div>
-          <div class="macro-val f" id="m-f">—</div>
-          <div class="macro-lbl">Fat (g)</div>
+    <div class="sidebar">
+      <div class="side-card">
+        <div class="side-title">Today's macros</div>
+        <div class="macros-row">
+          <div><div class="macro-val p" id="m-p">—</div><div class="macro-lbl">Protein</div></div>
+          <div><div class="macro-val c" id="m-c">—</div><div class="macro-lbl">Carbs</div></div>
+          <div><div class="macro-val f" id="m-f">—</div><div class="macro-lbl">Fat</div></div>
         </div>
       </div>
-    </div>
 
-    <div class="save-row">
-      <button class="btn-save" onclick="savePlan()">💾 Save Today's Plan</button>
+      <div class="side-card">
+        <div class="side-title">Protein per meal</div>
+        <div class="meal-breakdown" id="breakdown"></div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-title">Saved plans</div>
+        <div class="hist-list" id="hist-list"></div>
+      </div>
     </div>
   </div>
 </div>
-
-<!-- PAGE: HISTORY -->
-<div class="page" id="page-history">
-  <div class="page-header">
-    <div class="page-title">Saved Plans</div>
-    <div class="page-sub">Your recent meal plans</div>
-  </div>
-  <div class="scroll-area" id="hist-scroll">
-    <div id="hist-content"></div>
-  </div>
-</div>
-
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <button class="nav-btn active" id="nav-today" onclick="showPage('today')">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Today
-  </button>
-  <button class="nav-btn" id="nav-history" onclick="showPage('history')">
-    <svg viewBox="0 0 24 24"><polyline points="12 8 12 12 14 14"/><path d="M3.05 11a9 9 0 1 0 .5-4"/><polyline points="3 3 3 7 7 7"/></svg>
-    History
-  </button>
-</nav>
 
 <div class="toast" id="toast"></div>
 
@@ -544,127 +363,112 @@ const MEALS = {
 
 const TYPES = ["breakfast","lunch","dinner"];
 let current = {};
-let saved = JSON.parse(localStorage.getItem("pp_plans") || "[]");
+let saved = JSON.parse(localStorage.getItem("pp_plans")||"[]");
 
-function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function rnd(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-function shuffleAll() {
-  TYPES.forEach(t => { current[t] = rnd(MEALS[t]); });
-  renderMeals();
-  updateTotals();
+function shuffleAll(){
+  TYPES.forEach(t=>{ current[t]=rnd(MEALS[t]); });
+  renderMeals(); updateTotals();
 }
 
-function reroll(type) {
-  const pool = MEALS[type].filter(d => d.name !== (current[type] || {}).name);
-  current[type] = rnd(pool.length ? pool : MEALS[type]);
-  renderMeals();
-  updateTotals();
+function reroll(type){
+  const pool=MEALS[type].filter(d=>d.name!==(current[type]||{}).name);
+  current[type]=rnd(pool.length?pool:MEALS[type]);
+  renderMeals(); updateTotals();
 }
 
-function renderMeals() {
-  const list = document.getElementById("meals-list");
-  list.innerHTML = TYPES.map(type => {
-    const d = current[type];
-    if (!d) return "";
-    return `
-      <div class="meal-card pop">
-        <div class="meal-head">
-          <span class="meal-type-label">${type}</span>
-          <span class="prot-badge">${d.protein}g protein</span>
+function renderMeals(){
+  document.getElementById("meals-col").innerHTML=TYPES.map(type=>{
+    const d=current[type]; if(!d) return "";
+    return `<div class="meal-card pop">
+      <div class="meal-head">
+        <span class="meal-type-label">${type}</span>
+        <span class="prot-badge">${d.protein}g protein</span>
+      </div>
+      <div class="meal-body">
+        <div class="meal-emoji">${d.emoji}</div>
+        <div class="meal-info">
+          <div class="meal-name">${d.name}</div>
+          <div class="meal-desc">${d.desc}</div>
+          <div class="meal-tags">${d.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
         </div>
-        <div class="meal-body">
-          <div class="meal-emoji">${d.emoji}</div>
-          <div class="meal-info">
-            <div class="meal-name">${d.name}</div>
-            <div class="meal-desc">${d.desc}</div>
-            <div class="meal-tags">${d.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
-          </div>
-          <button class="btn-reroll" onclick="reroll('${type}')" aria-label="Re-roll ${type}">↻</button>
-        </div>
-      </div>`;
+        <button class="btn-reroll" onclick="reroll('${type}')" title="Re-roll ${type}">↻</button>
+      </div>
+    </div>`;
   }).join("");
 }
 
-function updateTotals() {
-  const vals = TYPES.map(t => current[t]).filter(Boolean);
-  if (!vals.length) return;
-  const p = vals.reduce((s,d)=>s+d.protein,0);
-  const c = vals.reduce((s,d)=>s+d.carbs,0);
-  const f = vals.reduce((s,d)=>s+d.fat,0);
-  const pct = Math.min(Math.round(p/150*100), 100);
-  const remain = Math.max(150 - p, 0);
-
-  document.getElementById("prot-num").textContent = p + "g";
-  document.getElementById("prog-fill").style.width = pct + "%";
-  document.getElementById("prog-fill").style.background = p >= 150 ? "#c8f135" : p >= 100 ? "#ff9a3c" : "#ff4d4d";
-  document.getElementById("prog-pct").textContent = pct + "% of goal";
-  document.getElementById("prog-remain").textContent = remain > 0 ? remain + "g remaining" : "✓ Goal reached!";
-  document.getElementById("m-p").textContent = p;
-  document.getElementById("m-c").textContent = c;
-  document.getElementById("m-f").textContent = f;
-  document.getElementById("over-warn").style.display = p > 165 ? "block" : "none";
+function updateTotals(){
+  const vals=TYPES.map(t=>current[t]).filter(Boolean);
+  if(!vals.length) return;
+  const p=vals.reduce((s,d)=>s+d.protein,0);
+  const c=vals.reduce((s,d)=>s+d.carbs,0);
+  const f=vals.reduce((s,d)=>s+d.fat,0);
+  const pct=Math.min(Math.round(p/150*100),100);
+  document.getElementById("prot-num").textContent=p+"g";
+  document.getElementById("prog-fill").style.width=pct+"%";
+  document.getElementById("prog-fill").style.background=p>=150?"#c8f135":p>=100?"#ff9a3c":"#ff4d4d";
+  document.getElementById("prog-pct").textContent=pct+"% of goal";
+  document.getElementById("prog-remain").textContent=p>=150?"✓ Goal reached!":Math.max(150-p,0)+"g remaining";
+  document.getElementById("m-p").textContent=p;
+  document.getElementById("m-c").textContent=c;
+  document.getElementById("m-f").textContent=f;
+  document.getElementById("over-warn").style.display=p>165?"block":"none";
+  document.getElementById("breakdown").innerHTML=TYPES.map(type=>{
+    const d=current[type]; if(!d) return "";
+    return `<div class="breakdown-row">
+      <span class="breakdown-label">${type}</span>
+      <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${Math.round(d.protein/60*100)}%"></div></div>
+      <span class="breakdown-val">${d.protein}g</span>
+    </div>`;
+  }).join("");
 }
 
-function savePlan() {
-  const vals = TYPES.map(t => current[t]).filter(Boolean);
-  if (vals.length < 3) { toast("Shuffle your meals first!"); return; }
-  const p = vals.reduce((s,d)=>s+d.protein,0);
-  const now = new Date();
-  const date = now.toLocaleDateString("en-GB", { weekday:"short", day:"numeric", month:"short", year:"numeric" });
-  saved.unshift({ date, protein: p, meals: TYPES.map(t=>current[t].name), emojis: TYPES.map(t=>current[t].emoji) });
-  if (saved.length > 14) saved.pop();
-  localStorage.setItem("pp_plans", JSON.stringify(saved));
-  toast("Plan saved!");
+function savePlan(){
+  const vals=TYPES.map(t=>current[t]).filter(Boolean);
+  if(vals.length<3){ toast("Shuffle your meals first!"); return; }
+  const p=vals.reduce((s,d)=>s+d.protein,0);
+  const date=new Date().toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
+  saved.unshift({date,protein:p,meals:TYPES.map(t=>current[t].name),emojis:TYPES.map(t=>current[t].emoji)});
+  if(saved.length>10) saved.pop();
+  localStorage.setItem("pp_plans",JSON.stringify(saved));
+  renderHistory(); toast("Plan saved!");
+}
+
+function deletePlan(i){
+  saved.splice(i,1);
+  localStorage.setItem("pp_plans",JSON.stringify(saved));
   renderHistory();
 }
 
-function deletePlan(i) {
-  saved.splice(i, 1);
-  localStorage.setItem("pp_plans", JSON.stringify(saved));
-  renderHistory();
-}
-
-function renderHistory() {
-  const el = document.getElementById("hist-content");
-  if (!saved.length) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div>No saved plans yet.<br>Shuffle your meals and save a plan!</div>`;
+function renderHistory(){
+  const el=document.getElementById("hist-list");
+  if(!saved.length){
+    el.innerHTML=`<div class="empty-hist">No saved plans yet.<br>Shuffle and save your first plan!</div>`;
     return;
   }
-  el.innerHTML = saved.map((p,i) => `
-    <div class="hist-card">
+  el.innerHTML=saved.map((p,i)=>`
+    <div class="hist-item">
       <div class="hist-top">
-        <div>
-          <div class="hist-date">${p.date}</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div class="hist-prot">${p.protein}g</div>
+        <span class="hist-date">${p.date}</span>
+        <div style="display:flex;align-items:center;">
+          <span class="hist-prot">${p.protein}g</span>
           <button class="btn-del" onclick="deletePlan(${i})">✕</button>
         </div>
       </div>
-      <div class="hist-meals">
-        ${p.meals.map((m,j)=>`${p.emojis?.[j]||""} <strong>${TYPES[j]}</strong>: ${m}`).join("<br>")}
-      </div>
-    </div>
-  `).join("");
+      <div class="hist-meals">${p.meals.map((m,j)=>`${p.emojis?.[j]||""} ${m}`).join("<br>")}</div>
+    </div>`).join("");
 }
 
-function showPage(name) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-  document.getElementById("page-" + name).classList.add("active");
-  document.getElementById("nav-" + name).classList.add("active");
-  if (name === "history") renderHistory();
+function toast(msg){
+  const el=document.getElementById("toast");
+  el.textContent=msg; el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"),2400);
 }
 
-function toast(msg) {
-  const el = document.getElementById("toast");
-  el.textContent = msg;
-  el.classList.add("show");
-  setTimeout(() => el.classList.remove("show"), 2400);
-}
-
-// Init
 shuffleAll();
+renderHistory();
 </script>
 </body>
 </html>
