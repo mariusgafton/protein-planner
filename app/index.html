@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>150G — Daily Protein Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --card: #1c1c1c;
+    --border: #2a2a2a;
+    --accent: #c8f135;
+    --accent-dim: #9db82a;
+    --text: #f0f0f0;
+    --muted: #666;
+    --red: #ff4d4d;
+    --orange: #ff9a3c;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* HEADER */
+  header {
+    padding: 32px 24px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: 2px;
+    color: var(--accent);
+  }
+
+  .logo span { color: var(--text); }
+
+  .header-sub {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .goal-ring {
+    text-align: right;
+  }
+
+  .goal-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .goal-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    padding: 20px 24px 0;
+  }
+
+  .progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .progress-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+  .progress-val { font-size: 14px; font-weight: 600; color: var(--text); }
+
+  .prog-track {
+    height: 6px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .prog-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: var(--accent);
+    transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  /* SHUFFLE */
+  .shuffle-bar {
+    padding: 20px 24px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-shuffle {
+    flex: 1;
+    padding: 14px;
+    background: var(--accent);
+    color: #0d0d0d;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.12s, background 0.12s;
+  }
+
+  .btn-shuffle:hover { background: #d6ff3d; transform: translateY(-1px); }
+  .btn-shuffle:active { transform: scale(0.97); }
+
+  .btn-save {
+    padding: 14px 20px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+    white-space: nowrap;
+  }
+
+  .btn-save:hover { border-color: var(--accent); background: rgba(200,241,53,0.05); }
+
+  /* MEAL CARDS */
+  .meals-grid {
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .meal-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .meal-card:hover { border-color: #3a3a3a; }
+
+  .meal-header {
+    padding: 14px 18px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meal-type {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+
+  .meal-protein-badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(200,241,53,0.12);
+    color: var(--accent);
+    border: 1px solid rgba(200,241,53,0.25);
+  }
+
+  .meal-body {
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .meal-emoji {
+    font-size: 36px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .meal-info { flex: 1; min-width: 0; }
+
+  .meal-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .meal-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .meal-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  .meal-reroll {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.12s, transform 0.12s;
+    color: var(--muted);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .meal-reroll:hover { border-color: var(--accent); color: var(--accent); }
+  .meal-reroll:active { transform: rotate(180deg); }
+
+  /* MACRO BREAKDOWN */
+  .macros-section {
+    margin: 24px 24px 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+
+  .macros-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .macros-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .macro-item { text-align: center; }
+
+  .macro-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .macro-val.protein { color: var(--accent); }
+  .macro-val.carbs { color: var(--orange); }
+  .macro-val.fat { color: #8ec5f7; }
+
+  .macro-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 3px;
+  }
+
+  /* SAVED PLANS */
+  .saved-section {
+    margin: 24px 24px 0;
+  }
+
+  .section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .saved-plan {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .saved-plan-date { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+
+  .saved-plan-meals { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+  .saved-plan-prot {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .btn-del {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 4px;
+    transition: color 0.12s;
+  }
+
+  .btn-del:hover { color: var(--red); }
+
+  /* SPIN ANIM */
+  @keyframes spin-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .anim { animation: spin-in 0.25s ease both; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--accent);
+    color: #0d0d0d;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 999px;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 999;
+    white-space: nowrap;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Overgoal warning */
+  .over-warn {
+    font-size: 12px;
+    color: var(--orange);
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">150<span>G</span></div>
+    <div class="header-sub">Daily Protein Planner · Gym Mode</div>
+  </div>
+  <div class="goal-ring">
+    <div class="goal-num" id="current-protein">0g</div>
+    <div class="goal-label">of 150g protein</div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-row">
+    <span class="progress-label">Daily progress</span>
+    <span class="progress-val" id="prog-pct">0%</span>
+  </div>
+  <div class="prog-track">
+    <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+  </div>
+  <div class="over-warn" id="over-warn" style="display:none">⚠ Over target — consider lighter options</div>
+</div>
+
+<div class="shuffle-bar">
+  <button class="btn-shuffle" onclick="shuffleAll()">⚡ Shuffle All</button>
+  <button class="btn-save" onclick="savePlan()">Save Plan</button>
+</div>
+
+<div class="meals-grid" id="meals-grid"></div>
+
+<div class="macros-section">
+  <div class="macros-title">Today's estimated macros</div>
+  <div class="macros-grid">
+    <div class="macro-item">
+      <div class="macro-val protein" id="m-protein">—</div>
+      <div class="macro-label">Protein (g)</div>
+    </div>
+    <div class="macro-item">
+      <div class="macro-val carbs" id="m-carbs">—</div>
+      <div class="macro-label">Carbs (g)</div>
+    </div>
+    <div class="macro-item">
+      <div class="macro-val fat" id="m-fat">—</div>
+      <div class="macro-label">Fat (g)</div>
+    </div>
+  </div>
+</div>
+
+<div class="saved-section" id="saved-section" style="display:none">
+  <div class="section-title">Saved plans</div>
+  <div id="saved-list"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const MEALS = {
+  breakfast: [
+    { name:"Scrambled eggs & turkey", emoji:"🍳", desc:"3 eggs + 100g turkey breast, whole wheat toast", protein:42, carbs:28, fat:14, tags:["quick","high-protein"] },
+    { name:"Greek yogurt & chicken", emoji:"🥣", desc:"200g Greek yogurt + 80g shredded chicken, granola", protein:45, carbs:22, fat:8, tags:["quick","no-cook"] },
+    { name:"Egg white omelette", emoji:"🥚", desc:"5 egg whites, spinach, mushrooms, whole wheat toast", protein:35, carbs:26, fat:5, tags:["quick","low-fat"] },
+    { name:"Tuna & avocado toast", emoji:"🥑", desc:"1 can tuna, half avocado, 2 slices sourdough", protein:38, carbs:30, fat:16, tags:["quick","no-cook"] },
+    { name:"Protein oatmeal bowl", emoji:"🥞", desc:"Oats, 2 scoops protein powder, banana, almond butter", protein:46, carbs:55, fat:12, tags:["quick","filling"] },
+    { name:"Smoked salmon toast", emoji:"🐟", desc:"100g smoked salmon, 2 poached eggs, rye bread", protein:40, carbs:24, fat:14, tags:["quick","omega-3"] },
+    { name:"Chicken & egg breakfast bowl", emoji:"🍲", desc:"100g chicken breast, 2 eggs, brown rice, hot sauce", protein:52, carbs:34, fat:10, tags:["filling","high-protein"] },
+    { name:"Turkey & egg wrap", emoji:"🌯", desc:"3 egg whites, 80g turkey, whole wheat wrap, spinach", protein:44, carbs:30, fat:8, tags:["quick","portable"] },
+  ],
+  lunch: [
+    { name:"Grilled chicken salad", emoji:"🥗", desc:"200g chicken breast, mixed greens, cherry tomatoes, olive oil", protein:50, carbs:12, fat:14, tags:["quick","low-carb"] },
+    { name:"Tuna rice bowl", emoji:"🍚", desc:"2 cans tuna, brown rice, cucumber, soy-lime dressing", protein:52, carbs:48, fat:8, tags:["quick","high-protein"] },
+    { name:"Turkey & avocado wrap", emoji:"🌯", desc:"150g turkey breast, avocado, lettuce, whole wheat wrap", protein:48, carbs:32, fat:16, tags:["quick","portable"] },
+    { name:"Beef stir-fry bowl", emoji:"🥩", desc:"150g lean beef strips, broccoli, peppers, brown rice", protein:46, carbs:44, fat:12, tags:["quick","filling"] },
+    { name:"Salmon & quinoa bowl", emoji:"🐟", desc:"150g baked salmon, quinoa, edamame, lemon-dill dressing", protein:50, carbs:40, fat:18, tags:["omega-3","balanced"] },
+    { name:"Chicken shawarma bowl", emoji:"🫙", desc:"200g chicken thigh, hummus, cucumber, brown rice, herbs", protein:52, carbs:50, fat:14, tags:["flavor-packed","filling"] },
+    { name:"Shrimp & noodle bowl", emoji:"🍜", desc:"200g shrimp, rice noodles, bok choy, ginger-soy broth", protein:44, carbs:46, fat:6, tags:["quick","low-fat"] },
+    { name:"Egg & chicken rice bowl", emoji:"🍳", desc:"150g chicken breast, 2 eggs, jasmine rice, teriyaki", protein:56, carbs:52, fat:10, tags:["high-protein","filling"] },
+  ],
+  dinner: [
+    { name:"Baked salmon & sweet potato", emoji:"🐟", desc:"200g salmon fillet, roasted sweet potato, steamed broccoli", protein:46, carbs:42, fat:16, tags:["omega-3","quick"] },
+    { name:"Chicken breast & rice", emoji:"🍗", desc:"250g grilled chicken breast, brown rice, green beans", protein:58, carbs:48, fat:8, tags:["classic","high-protein"] },
+    { name:"Lean beef & vegetable bowl", emoji:"🥩", desc:"200g 90% lean ground beef, roasted veg, quinoa", protein:52, carbs:40, fat:14, tags:["filling","high-protein"] },
+    { name:"Turkey mince stir-fry", emoji:"🥬", desc:"200g turkey mince, broccoli, snap peas, garlic, soy, rice", protein:50, carbs:46, fat:10, tags:["quick","lean"] },
+    { name:"Shrimp & vegetable curry", emoji:"🍛", desc:"250g shrimp, light coconut milk, spinach, brown rice", protein:46, carbs:50, fat:10, tags:["flavorful","quick"] },
+    { name:"Tuna steak & potatoes", emoji:"🐡", desc:"200g tuna steak, roasted potatoes, asparagus, lemon butter", protein:52, carbs:38, fat:12, tags:["omega-3","restaurant-feel"] },
+    { name:"Chicken tikka & rice", emoji:"🍲", desc:"200g chicken breast, light tikka sauce, basmati rice, raita", protein:54, carbs:52, fat:10, tags:["flavorful","quick"] },
+    { name:"Beef bolognese", emoji:"🍝", desc:"150g lean beef mince, whole wheat pasta, tomato sauce", protein:48, carbs:58, fat:12, tags:["comfort","filling"] },
+  ]
+};
+
+const TYPES = ["breakfast","lunch","dinner"];
+let current = { breakfast: null, lunch: null, dinner: null };
+let savedPlans = JSON.parse(localStorage.getItem("protein_plans") || "[]");
+
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function shuffleAll() {
+  TYPES.forEach(t => { current[t] = pick(MEALS[t]); });
+  renderAll();
+}
+
+function reroll(type) {
+  let pool = MEALS[type].filter(d => d.name !== current[type]?.name);
+  if (!pool.length) pool = MEALS[type];
+  current[type] = pick(pool);
+  renderCard(type);
+  updateTotals();
+}
+
+function renderAll() {
+  TYPES.forEach(renderCard);
+  updateTotals();
+}
+
+function renderCard(type) {
+  const d = current[type];
+  if (!d) return;
+  const el = document.getElementById("card-" + type);
+  if (!el) return;
+  el.querySelector(".meal-name").textContent = d.name;
+  el.querySelector(".meal-desc").textContent = d.desc;
+  el.querySelector(".meal-emoji").textContent = d.emoji;
+  el.querySelector(".meal-protein-badge").textContent = d.protein + "g protein";
+  el.querySelector(".meal-tags").innerHTML = d.tags.map(t => `<span class="tag">${t}</span>`).join("");
+  el.classList.remove("anim");
+  void el.offsetWidth;
+  el.classList.add("anim");
+}
+
+function buildGrid() {
+  const grid = document.getElementById("meals-grid");
+  grid.innerHTML = TYPES.map(type => `
+    <div class="meal-card anim" id="card-${type}">
+      <div class="meal-header">
+        <span class="meal-type">${type}</span>
+        <span class="meal-protein-badge">—</span>
+      </div>
+      <div class="meal-body">
+        <div class="meal-emoji">—</div>
+        <div class="meal-info">
+          <div class="meal-name">Pick a meal</div>
+          <div class="meal-desc">Hit shuffle to generate your plan</div>
+          <div class="meal-tags"></div>
+        </div>
+        <button class="meal-reroll" onclick="reroll('${type}')" title="Re-roll this meal">↻</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function updateTotals() {
+  const vals = TYPES.map(t => current[t]).filter(Boolean);
+  if (!vals.length) return;
+  const protein = vals.reduce((s,d) => s + d.protein, 0);
+  const carbs = vals.reduce((s,d) => s + d.carbs, 0);
+  const fat = vals.reduce((s,d) => s + d.fat, 0);
+  const pct = Math.min(Math.round(protein / 150 * 100), 100);
+
+  document.getElementById("current-protein").textContent = protein + "g";
+  document.getElementById("prog-pct").textContent = pct + "%";
+  document.getElementById("prog-fill").style.width = pct + "%";
+  document.getElementById("m-protein").textContent = protein;
+  document.getElementById("m-carbs").textContent = carbs;
+  document.getElementById("m-fat").textContent = fat;
+  document.getElementById("over-warn").style.display = protein > 160 ? "block" : "none";
+
+  const fill = document.getElementById("prog-fill");
+  fill.style.background = protein >= 150 ? "#c8f135" : protein >= 100 ? "#ff9a3c" : "#ff4d4d";
+}
+
+function savePlan() {
+  const vals = TYPES.map(t => current[t]).filter(Boolean);
+  if (vals.length < 3) { showToast("Shuffle first!"); return; }
+  const protein = vals.reduce((s,d) => s + d.protein, 0);
+  const now = new Date();
+  const label = now.toLocaleDateString("en-GB", { weekday:"short", day:"numeric", month:"short" });
+  savedPlans.unshift({ date: label, protein, meals: TYPES.map(t => current[t].name) });
+  if (savedPlans.length > 7) savedPlans.pop();
+  localStorage.setItem("protein_plans", JSON.stringify(savedPlans));
+  renderSaved();
+  showToast("Plan saved!");
+}
+
+function deletePlan(i) {
+  savedPlans.splice(i, 1);
+  localStorage.setItem("protein_plans", JSON.stringify(savedPlans));
+  renderSaved();
+}
+
+function renderSaved() {
+  const sec = document.getElementById("saved-section");
+  const list = document.getElementById("saved-list");
+  if (!savedPlans.length) { sec.style.display = "none"; return; }
+  sec.style.display = "block";
+  list.innerHTML = savedPlans.map((p, i) => `
+    <div class="saved-plan">
+      <div style="flex:1;min-width:0;">
+        <div class="saved-plan-date">${p.date}</div>
+        <div class="saved-plan-meals">${p.meals.join(" · ")}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="saved-plan-prot">${p.protein}g</div>
+        <button class="btn-del" onclick="deletePlan(${i})">✕</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+// Init
+buildGrid();
+shuffleAll();
+renderSaved();
+</script>
+</body>
+</html>
