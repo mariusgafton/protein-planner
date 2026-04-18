@@ -9,145 +9,84 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
 :root {
-  --bg: #0d0d0d;
-  --surface: #161616;
-  --card: #1c1c1c;
-  --border: #2a2a2a;
-  --accent: #c8f135;
-  --text: #f0f0f0;
-  --muted: #666;
-  --red: #ff4d4d;
-  --orange: #ff9a3c;
-  --blue: #8ec5f7;
+  --bg: #0d0d0d; --surface: #161616; --card: #1c1c1c; --border: #2a2a2a;
+  --accent: #c8f135; --text: #f0f0f0; --muted: #666;
+  --red: #ff4d4d; --orange: #ff9a3c; --blue: #8ec5f7;
 }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
-}
-
-.app {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 32px 80px;
-}
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+.app { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
 
 /* HEADER */
 header {
-  padding: 44px 0 28px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-  flex-wrap: wrap;
-  gap: 16px;
+  padding: 44px 0 28px; display: flex; align-items: flex-end;
+  justify-content: space-between; border-bottom: 1px solid var(--border);
+  flex-wrap: wrap; gap: 16px;
 }
-
-.logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 68px;
-  line-height: 1;
-  letter-spacing: 3px;
-  color: var(--accent);
-}
+.logo { font-family: 'Bebas Neue', sans-serif; font-size: 68px; line-height: 1; letter-spacing: 3px; color: var(--accent); }
 .logo span { color: var(--text); }
-.logo-sub {
-  font-size: 12px;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-top: 4px;
-}
-
+.logo-sub { font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
 .header-right { text-align: right; }
-.protein-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 56px;
-  line-height: 1;
-  color: var(--accent);
-}
+.protein-num { font-family: 'Bebas Neue', sans-serif; font-size: 56px; line-height: 1; color: var(--accent); }
 .protein-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
 
 /* PROGRESS */
 .progress-section { padding: 22px 0 0; }
 .prog-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
 .prog-track { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
-.prog-fill {
-  height: 100%; border-radius: 999px; background: var(--accent);
-  transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1), background 0.4s;
-}
+.prog-fill { height: 100%; border-radius: 999px; background: var(--accent); transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1), background 0.4s; }
 .over-warn { font-size: 12px; color: var(--orange); margin-top: 6px; }
 
 /* ACTION BAR */
-.action-bar {
-  display: flex; gap: 12px;
-  padding: 22px 0 26px;
-  flex-wrap: wrap;
-}
-
+.action-bar { display: flex; gap: 12px; padding: 22px 0 26px; flex-wrap: wrap; }
 .btn-shuffle {
-  flex: 1; min-width: 180px;
-  padding: 15px 24px;
-  background: var(--accent);
-  color: #0d0d0d;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px; letter-spacing: 3px;
+  flex: 1; min-width: 180px; padding: 15px 24px;
+  background: var(--accent); color: #0d0d0d;
+  font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 3px;
   border: none; border-radius: 10px; cursor: pointer;
   transition: transform 0.12s, background 0.12s;
 }
 .btn-shuffle:hover { background: #d6ff3d; transform: translateY(-1px); }
 .btn-shuffle:active { transform: scale(0.97); }
-
 .btn-save {
-  padding: 15px 28px;
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--text); font-size: 14px; font-weight: 500;
-  cursor: pointer; white-space: nowrap;
-  transition: border-color 0.15s, background 0.15s;
+  padding: 15px 28px; background: none; border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text); font-size: 14px; font-weight: 500;
+  cursor: pointer; white-space: nowrap; transition: border-color 0.15s, background 0.15s;
 }
 .btn-save:hover { border-color: var(--accent); background: rgba(200,241,53,0.05); }
 .btn-save:active { transform: scale(0.98); }
 
-/* MAIN GRID */
-.main-grid {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 24px;
-  align-items: start;
+/* FILTER TAGS */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.filter-btn {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em;
+  padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border);
+  background: none; color: var(--muted); cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
+.filter-btn:hover { border-color: #444; color: var(--text); }
+.filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(200,241,53,0.08); }
+
+/* MAIN GRID */
+.main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
 
 /* MEAL CARDS */
 .meals-col { display: flex; flex-direction: column; gap: 14px; }
-
 .meal-card {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: var(--card); border: 1px solid var(--border);
   border-radius: 14px; overflow: hidden;
   transition: border-color 0.2s, transform 0.15s;
 }
 .meal-card:hover { border-color: #3a3a3a; transform: translateY(-1px); }
-
 .meal-head {
   padding: 12px 18px; border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
 }
-.meal-type-label {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 15px; letter-spacing: 2px; color: var(--muted);
-}
+.meal-type-label { font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 2px; color: var(--muted); }
 .prot-badge {
-  font-size: 12px; font-weight: 600;
-  padding: 3px 12px; border-radius: 999px;
-  background: rgba(200,241,53,0.12); color: var(--accent);
-  border: 1px solid rgba(200,241,53,0.22);
+  font-size: 12px; font-weight: 600; padding: 3px 12px; border-radius: 999px;
+  background: rgba(200,241,53,0.12); color: var(--accent); border: 1px solid rgba(200,241,53,0.22);
 }
-
 .meal-body { padding: 18px; display: flex; align-items: center; gap: 16px; }
 .meal-emoji { font-size: 44px; line-height: 1; flex-shrink: 0; }
 .meal-info { flex: 1; min-width: 0; }
@@ -171,55 +110,38 @@ header {
 
 /* SIDEBAR */
 .sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 24px; }
-
-.side-card {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 14px; padding: 18px;
-}
-.side-title {
-  font-size: 11px; text-transform: uppercase;
-  letter-spacing: 0.08em; color: var(--muted); margin-bottom: 16px;
-}
-
-/* Macros */
+.side-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+.side-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 16px; }
 .macros-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; text-align: center; }
 .macro-val { font-family: 'Bebas Neue', sans-serif; font-size: 34px; line-height: 1; }
 .macro-val.p { color: var(--accent); }
 .macro-val.c { color: var(--orange); }
 .macro-val.f { color: var(--blue); }
 .macro-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
-
-/* Breakdown */
 .meal-breakdown { display: flex; flex-direction: column; gap: 10px; }
 .breakdown-row { display: flex; align-items: center; gap: 10px; }
 .breakdown-label { font-size: 12px; color: var(--muted); text-transform: capitalize; width: 70px; flex-shrink: 0; }
 .breakdown-bar-wrap { flex: 1; height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
 .breakdown-bar { height: 100%; background: var(--accent); border-radius: 999px; transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1); }
 .breakdown-val { font-size: 12px; font-weight: 600; color: var(--text); width: 30px; text-align: right; flex-shrink: 0; }
-
-/* History */
 .hist-list { display: flex; flex-direction: column; gap: 10px; }
-.hist-item {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 12px 14px;
-}
+.hist-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
 .hist-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
 .hist-date { font-size: 12px; font-weight: 600; color: var(--text); }
 .hist-prot { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--accent); }
 .hist-meals { font-size: 11px; color: var(--muted); line-height: 1.7; }
-.btn-del {
-  background: none; border: none; color: var(--muted);
-  font-size: 14px; cursor: pointer; padding: 2px 4px;
-  margin-left: 6px; transition: color 0.12s;
-}
+.btn-del { background: none; border: none; color: var(--muted); font-size: 14px; cursor: pointer; padding: 2px 4px; margin-left: 6px; transition: color 0.12s; }
 .btn-del:hover { color: var(--red); }
 .empty-hist { font-size: 13px; color: var(--muted); text-align: center; padding: 12px 0; line-height: 1.8; }
 
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--accent); line-height: 1; }
+.stat-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
+
 /* ANIMATIONS */
-@keyframes pop-in {
-  from { opacity: 0; transform: translateY(6px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
+@keyframes pop-in { from { opacity:0; transform:translateY(6px) scale(0.98); } to { opacity:1; transform:translateY(0) scale(1); } }
 .pop { animation: pop-in 0.25s cubic-bezier(0.34,1.56,0.64,1) both; }
 
 /* TOAST */
@@ -227,20 +149,14 @@ header {
   position: fixed; bottom: 28px; left: 50%;
   transform: translateX(-50%) translateY(20px);
   background: var(--accent); color: #0d0d0d;
-  font-size: 13px; font-weight: 600;
-  padding: 10px 24px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; padding: 10px 24px; border-radius: 999px;
   opacity: 0; transition: opacity 0.2s, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
   z-index: 200; pointer-events: none; white-space: nowrap;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* RESPONSIVE */
-@media (max-width: 860px) {
-  .main-grid { grid-template-columns: 1fr; }
-  .sidebar { position: static; }
-  /* On mobile, show macros+breakdown inline under meals, history last */
-}
-
+@media (max-width: 860px) { .main-grid { grid-template-columns: 1fr; } .sidebar { position: static; } }
 @media (max-width: 600px) {
   .app { padding: 0 16px 60px; }
   header { padding: 28px 0 18px; }
@@ -249,18 +165,14 @@ header {
   .action-bar { padding: 16px 0 18px; gap: 10px; }
   .btn-shuffle { font-size: 19px; padding: 13px 18px; }
   .btn-save { padding: 13px 18px; font-size: 13px; }
-  .meal-body { padding: 14px 14px; gap: 12px; }
+  .meal-body { padding: 14px; gap: 12px; }
   .meal-emoji { font-size: 36px; }
   .meal-name { font-size: 16px; }
   .meal-desc { font-size: 12px; }
   .btn-reroll { width: 38px; height: 38px; font-size: 17px; }
   .macro-val { font-size: 28px; }
 }
-
-@media (max-width: 380px) {
-  .logo { font-size: 38px; }
-  .protein-num { font-size: 34px; }
-}
+@media (max-width: 380px) { .logo { font-size: 38px; } .protein-num { font-size: 34px; } }
 </style>
 </head>
 <body>
@@ -282,9 +194,7 @@ header {
       <span id="prog-pct">0% of goal</span>
       <span id="prog-remain">150g remaining</span>
     </div>
-    <div class="prog-track">
-      <div class="prog-fill" id="prog-fill" style="width:0%"></div>
-    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
     <div class="over-warn" id="over-warn" style="display:none">⚠ Over target — consider lighter options</div>
   </div>
 
@@ -293,9 +203,10 @@ header {
     <button class="btn-save" onclick="savePlan()">💾 Save Today's Plan</button>
   </div>
 
+  <div class="filter-bar" id="filter-bar"></div>
+
   <div class="main-grid">
     <div class="meals-col" id="meals-col"></div>
-
     <div class="sidebar">
       <div class="side-card">
         <div class="side-title">Today's macros</div>
@@ -305,12 +216,17 @@ header {
           <div><div class="macro-val f" id="m-f">—</div><div class="macro-lbl">Fat</div></div>
         </div>
       </div>
-
       <div class="side-card">
         <div class="side-title">Protein per meal</div>
         <div class="meal-breakdown" id="breakdown"></div>
       </div>
-
+      <div class="side-card">
+        <div class="side-title">Recipe pool</div>
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-num" id="stat-total">0</div><div class="stat-lbl">Total recipes</div></div>
+          <div class="stat-box"><div class="stat-num" id="stat-filtered">0</div><div class="stat-lbl">Available now</div></div>
+        </div>
+      </div>
       <div class="side-card">
         <div class="side-title">Saved plans</div>
         <div class="hist-list" id="hist-list"></div>
@@ -324,63 +240,197 @@ header {
 <script>
 const MEALS = {
   breakfast: [
-    { name:"Scrambled eggs & turkey", emoji:"🍳", desc:"3 eggs + 100g turkey breast, whole wheat toast", protein:42, carbs:28, fat:14, tags:["quick","high-protein"] },
-    { name:"Greek yogurt & chicken", emoji:"🥣", desc:"200g Greek yogurt + 80g shredded chicken, granola", protein:45, carbs:22, fat:8, tags:["quick","no-cook"] },
-    { name:"Egg white omelette", emoji:"🥚", desc:"5 egg whites, spinach, mushrooms, whole wheat toast", protein:35, carbs:26, fat:5, tags:["quick","low-fat"] },
-    { name:"Tuna & avocado toast", emoji:"🥑", desc:"1 can tuna, half avocado, 2 slices sourdough", protein:38, carbs:30, fat:16, tags:["quick","no-cook"] },
-    { name:"Protein oatmeal bowl", emoji:"🥞", desc:"Oats, 2 scoops protein powder, banana, almond butter", protein:46, carbs:55, fat:12, tags:["quick","filling"] },
-    { name:"Smoked salmon toast", emoji:"🐟", desc:"100g smoked salmon, 2 poached eggs, rye bread", protein:40, carbs:24, fat:14, tags:["quick","omega-3"] },
-    { name:"Chicken & egg breakfast bowl", emoji:"🍲", desc:"100g chicken breast, 2 eggs, brown rice, hot sauce", protein:52, carbs:34, fat:10, tags:["filling","high-protein"] },
-    { name:"Turkey & egg wrap", emoji:"🌯", desc:"3 egg whites, 80g turkey, whole wheat wrap, spinach", protein:44, carbs:30, fat:8, tags:["quick","portable"] },
-    { name:"Beef & egg rice bowl", emoji:"🍳", desc:"80g lean beef mince, 2 eggs, jasmine rice, soy sauce", protein:48, carbs:38, fat:14, tags:["filling","high-protein"] },
-    { name:"Shrimp scramble", emoji:"🍤", desc:"150g shrimp, 2 eggs, peppers, whole wheat toast", protein:44, carbs:26, fat:10, tags:["quick","light"] },
+    // Eggs & Dairy
+    { name:"Scrambled eggs & turkey bacon", emoji:"🍳", desc:"3 eggs, 3 strips turkey bacon, whole wheat toast", protein:42, carbs:28, fat:14, tags:["quick","eggs"] },
+    { name:"Egg white omelette", emoji:"🥚", desc:"5 egg whites, spinach, mushrooms, whole wheat toast", protein:35, carbs:26, fat:5, tags:["quick","eggs","low-fat"] },
+    { name:"Turkey & egg wrap", emoji:"🌯", desc:"3 egg whites, 80g turkey, whole wheat wrap, spinach", protein:44, carbs:30, fat:8, tags:["quick","eggs","portable"] },
+    { name:"Chicken & egg breakfast bowl", emoji:"🍲", desc:"100g chicken breast, 2 eggs, brown rice, hot sauce", protein:52, carbs:34, fat:10, tags:["eggs","chicken","filling"] },
+    { name:"Beef & egg rice bowl", emoji:"🍱", desc:"80g lean beef mince, 2 eggs, jasmine rice, soy sauce", protein:48, carbs:38, fat:14, tags:["eggs","beef","filling"] },
+    { name:"Shakshuka with turkey", emoji:"🫕", desc:"3 eggs poached in spiced tomato sauce, 80g turkey mince, pita", protein:44, carbs:32, fat:12, tags:["eggs","quick"] },
+    { name:"Huevos rancheros", emoji:"🌮", desc:"2 eggs, black beans, salsa, corn tortilla, avocado", protein:36, carbs:40, fat:14, tags:["eggs","mexican"] },
+    { name:"Egg & sweet potato hash", emoji:"🥔", desc:"2 eggs, 200g sweet potato, peppers, onion, paprika", protein:34, carbs:44, fat:10, tags:["eggs","filling"] },
+    { name:"Greek omelette", emoji:"🥚", desc:"3 eggs, cherry tomatoes, olives, spinach, whole wheat toast", protein:32, carbs:24, fat:16, tags:["eggs","mediterranean"] },
+    { name:"Steak & eggs", emoji:"🥩", desc:"100g sirloin steak, 2 eggs, whole wheat toast", protein:50, carbs:22, fat:18, tags:["eggs","beef","high-protein"] },
+
+    // Fish
+    { name:"Tuna & avocado toast", emoji:"🥑", desc:"1 can tuna, half avocado, 2 slices sourdough", protein:38, carbs:30, fat:16, tags:["fish","no-cook","quick"] },
+    { name:"Smoked salmon toast", emoji:"🐟", desc:"100g smoked salmon, 2 poached eggs, rye bread", protein:40, carbs:24, fat:14, tags:["fish","omega-3"] },
+    { name:"Smoked salmon bagel", emoji:"🥯", desc:"100g smoked salmon, cream-free spread, capers, red onion, bagel", protein:38, carbs:38, fat:10, tags:["fish","omega-3","no-cook"] },
+    { name:"Tuna & egg scramble", emoji:"🍳", desc:"1 can tuna, 2 eggs, spinach, whole wheat toast", protein:46, carbs:24, fat:10, tags:["fish","eggs","quick"] },
+    { name:"Shrimp scramble", emoji:"🍤", desc:"150g shrimp, 2 eggs, peppers, whole wheat toast", protein:44, carbs:26, fat:10, tags:["fish","eggs","quick"] },
+    { name:"Sardine toast", emoji:"🐟", desc:"1 can sardines, sliced tomato, mustard, rye bread", protein:36, carbs:26, fat:14, tags:["fish","omega-3","no-cook"] },
+    { name:"Mackerel & egg bowl", emoji:"🐡", desc:"100g mackerel, 2 boiled eggs, cucumber, brown rice", protein:42, carbs:32, fat:16, tags:["fish","omega-3"] },
+
+    // Chicken & Turkey
+    { name:"Greek yogurt & chicken bowl", emoji:"🥣", desc:"200g Greek yogurt, 80g shredded chicken, granola, honey", protein:45, carbs:22, fat:8, tags:["chicken","quick","no-cook"] },
+    { name:"Chicken quesadilla", emoji:"🌮", desc:"100g chicken breast, whole wheat tortilla, salsa, jalapeños", protein:42, carbs:34, fat:10, tags:["chicken","quick","mexican"] },
+    { name:"Turkey sausage bowl", emoji:"🌭", desc:"3 turkey sausages, scrambled eggs, roasted tomatoes, toast", protein:44, carbs:28, fat:14, tags:["turkey","eggs"] },
+    { name:"Chicken & waffle", emoji:"🧇", desc:"100g grilled chicken, 1 whole wheat waffle, maple syrup", protein:40, carbs:36, fat:10, tags:["chicken","american"] },
+    { name:"Turkey mince & egg skillet", emoji:"🍳", desc:"100g turkey mince, 2 eggs, peppers, onion, spices", protein:46, carbs:14, fat:12, tags:["turkey","eggs","low-carb"] },
+
+    // Protein & Oats
+    { name:"Protein oatmeal bowl", emoji:"🥞", desc:"Oats, 2 scoops protein powder, banana, almond butter", protein:46, carbs:55, fat:12, tags:["oats","filling","quick"] },
+    { name:"Overnight protein oats", emoji:"🫙", desc:"Oats, protein powder, almond milk, chia seeds, berries", protein:40, carbs:50, fat:10, tags:["oats","no-cook","prep-ahead"] },
+    { name:"Oat & egg white pancakes", emoji:"🥞", desc:"Oats, 4 egg whites, banana, cinnamon, maple syrup", protein:38, carbs:48, fat:6, tags:["oats","eggs","quick"] },
+    { name:"High-protein granola bowl", emoji:"🥣", desc:"Greek yogurt, homemade granola, protein powder, mixed berries", protein:42, carbs:44, fat:10, tags:["oats","quick"] },
+    { name:"Peanut butter protein oats", emoji:"🥜", desc:"Oats, peanut butter, protein powder, banana, honey", protein:44, carbs:52, fat:14, tags:["oats","filling"] },
+
+    // Beef & Pork alternatives
+    { name:"Lean beef breakfast burrito", emoji:"🌯", desc:"80g lean beef mince, 2 eggs, salsa, whole wheat tortilla", protein:46, carbs:32, fat:14, tags:["beef","eggs","mexican"] },
+    { name:"Beef & veggie morning bowl", emoji:"🥗", desc:"80g lean beef, roasted peppers, 2 eggs, quinoa", protein:50, carbs:34, fat:14, tags:["beef","eggs"] },
+    { name:"Protein French toast", emoji:"🍞", desc:"2 slices thick bread, 3 eggs, protein powder, cinnamon, berries", protein:40, carbs:38, fat:10, tags:["eggs","sweet"] },
+    { name:"High-protein smoothie bowl", emoji:"🫐", desc:"2 scoops protein powder, frozen banana, almond milk, toppings", protein:44, carbs:42, fat:8, tags:["quick","no-cook"] },
+    { name:"Cottage-free protein bowl", emoji:"🥣", desc:"Greek yogurt, mixed nuts, protein powder, honey, granola", protein:38, carbs:36, fat:12, tags:["quick","no-cook"] },
   ],
+
   lunch: [
-    { name:"Grilled chicken salad", emoji:"🥗", desc:"200g chicken breast, mixed greens, cherry tomatoes, olive oil", protein:50, carbs:12, fat:14, tags:["quick","low-carb"] },
-    { name:"Tuna rice bowl", emoji:"🍚", desc:"2 cans tuna, brown rice, cucumber, soy-lime dressing", protein:52, carbs:48, fat:8, tags:["quick","high-protein"] },
-    { name:"Turkey & avocado wrap", emoji:"🌯", desc:"150g turkey breast, avocado, lettuce, whole wheat wrap", protein:48, carbs:32, fat:16, tags:["quick","portable"] },
-    { name:"Beef stir-fry bowl", emoji:"🥩", desc:"150g lean beef strips, broccoli, peppers, brown rice", protein:46, carbs:44, fat:12, tags:["quick","filling"] },
-    { name:"Salmon & quinoa bowl", emoji:"🐟", desc:"150g baked salmon, quinoa, edamame, lemon-dill dressing", protein:50, carbs:40, fat:18, tags:["omega-3","balanced"] },
-    { name:"Chicken shawarma bowl", emoji:"🫙", desc:"200g chicken thigh, hummus, cucumber, brown rice, herbs", protein:52, carbs:50, fat:14, tags:["flavorful","filling"] },
-    { name:"Shrimp & noodle bowl", emoji:"🍜", desc:"200g shrimp, rice noodles, bok choy, ginger-soy broth", protein:44, carbs:46, fat:6, tags:["quick","low-fat"] },
-    { name:"Chicken & egg rice bowl", emoji:"🍳", desc:"150g chicken breast, 2 eggs, jasmine rice, teriyaki", protein:56, carbs:52, fat:10, tags:["high-protein","filling"] },
-    { name:"Beef & veggie wrap", emoji:"🌯", desc:"150g lean beef strips, peppers, onion, whole wheat wrap", protein:46, carbs:36, fat:14, tags:["quick","portable"] },
-    { name:"Tuna pasta bowl", emoji:"🍝", desc:"1 can tuna, whole wheat pasta, cherry tomatoes, olive oil", protein:44, carbs:54, fat:10, tags:["filling","quick"] },
+    // Chicken
+    { name:"Grilled chicken salad", emoji:"🥗", desc:"200g chicken breast, mixed greens, cherry tomatoes, olive oil", protein:50, carbs:12, fat:14, tags:["chicken","low-carb","quick"] },
+    { name:"Chicken shawarma bowl", emoji:"🫙", desc:"200g chicken thigh, hummus, cucumber, brown rice, herbs", protein:52, carbs:50, fat:14, tags:["chicken","middle-eastern"] },
+    { name:"Chicken & egg rice bowl", emoji:"🍳", desc:"150g chicken breast, 2 eggs, jasmine rice, teriyaki sauce", protein:56, carbs:52, fat:10, tags:["chicken","eggs","high-protein"] },
+    { name:"Chicken caesar wrap", emoji:"🌯", desc:"180g chicken breast, romaine, caesar dressing, whole wheat wrap", protein:48, carbs:34, fat:16, tags:["chicken","quick"] },
+    { name:"Kung pao chicken bowl", emoji:"🥜", desc:"180g chicken breast, peanuts, peppers, brown rice, soy sauce", protein:50, carbs:48, fat:14, tags:["chicken","asian"] },
+    { name:"Chicken tikka wrap", emoji:"🌯", desc:"180g chicken tikka, cucumber raita, lettuce, whole wheat wrap", protein:48, carbs:36, fat:10, tags:["chicken","indian"] },
+    { name:"Honey garlic chicken bowl", emoji:"🍯", desc:"200g chicken breast, honey garlic sauce, broccoli, brown rice", protein:52, carbs:50, fat:8, tags:["chicken","quick"] },
+    { name:"Chicken burrito bowl", emoji:"🫙", desc:"180g chicken, black beans, corn, brown rice, salsa, guac", protein:52, carbs:58, fat:14, tags:["chicken","mexican"] },
+    { name:"Lemon herb chicken bowl", emoji:"🍋", desc:"200g chicken breast, quinoa, roasted veg, lemon-herb dressing", protein:50, carbs:44, fat:10, tags:["chicken","mediterranean"] },
+    { name:"BBQ chicken rice bowl", emoji:"🍗", desc:"200g chicken thigh, BBQ sauce, coleslaw, brown rice", protein:52, carbs:54, fat:12, tags:["chicken","american"] },
+    { name:"Chicken souvlaki bowl", emoji:"🫒", desc:"180g chicken breast, tzatziki, tomato, pita, mixed greens", protein:48, carbs:40, fat:10, tags:["chicken","greek"] },
+    { name:"Thai basil chicken bowl", emoji:"🌿", desc:"180g chicken mince, Thai basil, fish sauce, egg, jasmine rice", protein:50, carbs:48, fat:12, tags:["chicken","thai"] },
+
+    // Beef
+    { name:"Beef stir-fry bowl", emoji:"🥩", desc:"150g lean beef strips, broccoli, peppers, brown rice", protein:46, carbs:44, fat:12, tags:["beef","asian","quick"] },
+    { name:"Beef & veggie wrap", emoji:"🌯", desc:"150g lean beef strips, peppers, onion, whole wheat wrap", protein:46, carbs:36, fat:14, tags:["beef","quick","portable"] },
+    { name:"Beef bulgogi bowl", emoji:"🇰🇷", desc:"180g marinated beef, jasmine rice, kimchi, sesame spinach", protein:48, carbs:52, fat:14, tags:["beef","korean"] },
+    { name:"Beef & quinoa power bowl", emoji:"🥗", desc:"150g lean beef mince, quinoa, roasted veg, tahini dressing", protein:48, carbs:46, fat:14, tags:["beef","filling"] },
+    { name:"Beef tacos", emoji:"🌮", desc:"150g seasoned beef mince, 3 corn tortillas, salsa, avocado", protein:44, carbs:42, fat:18, tags:["beef","mexican"] },
+    { name:"Beef & sweet potato bowl", emoji:"🥔", desc:"150g lean beef, roasted sweet potato, spinach, chili flakes", protein:46, carbs:44, fat:12, tags:["beef","filling"] },
+    { name:"Beef fried rice", emoji:"🍚", desc:"120g lean beef strips, 2 eggs, brown rice, soy sauce, spring onion", protein:46, carbs:52, fat:12, tags:["beef","asian"] },
+    { name:"Beef kebab bowl", emoji:"🥙", desc:"160g beef kofta, tabbouleh, hummus, pita bread", protein:48, carbs:44, fat:16, tags:["beef","middle-eastern"] },
+
+    // Turkey
+    { name:"Turkey & avocado wrap", emoji:"🌯", desc:"150g turkey breast, avocado, lettuce, whole wheat wrap", protein:48, carbs:32, fat:16, tags:["turkey","quick","portable"] },
+    { name:"Turkey meatball bowl", emoji:"🍝", desc:"6 turkey meatballs, zucchini noodles, marinara sauce", protein:44, carbs:24, fat:12, tags:["turkey","low-carb"] },
+    { name:"Turkey & hummus wrap", emoji:"🌯", desc:"150g sliced turkey, hummus, cucumber, tomato, whole wheat wrap", protein:46, carbs:34, fat:10, tags:["turkey","mediterranean","quick"] },
+    { name:"Turkey taco bowl", emoji:"🫙", desc:"160g turkey mince, black beans, corn, brown rice, salsa", protein:48, carbs:52, fat:10, tags:["turkey","mexican"] },
+    { name:"Turkey & cranberry sandwich", emoji:"🥪", desc:"150g turkey breast, cranberry sauce, lettuce, whole wheat bread", protein:44, carbs:36, fat:8, tags:["turkey","quick","portable"] },
+
+    // Fish & Seafood
+    { name:"Tuna rice bowl", emoji:"🍚", desc:"2 cans tuna, brown rice, cucumber, soy-lime dressing", protein:52, carbs:48, fat:8, tags:["fish","quick","no-cook"] },
+    { name:"Salmon & quinoa bowl", emoji:"🐟", desc:"150g baked salmon, quinoa, edamame, lemon-dill dressing", protein:50, carbs:40, fat:18, tags:["fish","omega-3"] },
+    { name:"Shrimp & noodle bowl", emoji:"🍜", desc:"200g shrimp, rice noodles, bok choy, ginger-soy broth", protein:44, carbs:46, fat:6, tags:["fish","asian","quick"] },
+    { name:"Tuna pasta bowl", emoji:"🍝", desc:"1 can tuna, whole wheat pasta, cherry tomatoes, olive oil", protein:44, carbs:54, fat:10, tags:["fish","quick"] },
+    { name:"Shrimp tacos", emoji:"🌮", desc:"200g grilled shrimp, 3 corn tortillas, slaw, lime crema", protein:44, carbs:42, fat:12, tags:["fish","mexican"] },
+    { name:"Tuna nicoise bowl", emoji:"🥗", desc:"1 can tuna, boiled egg, green beans, olives, potatoes", protein:46, carbs:36, fat:14, tags:["fish","french","eggs"] },
+    { name:"Salmon sushi bowl", emoji:"🍱", desc:"150g salmon, sushi rice, avocado, cucumber, soy sauce, nori", protein:46, carbs:52, fat:16, tags:["fish","japanese","omega-3"] },
+    { name:"Prawn stir-fry bowl", emoji:"🍤", desc:"200g prawns, bok choy, mushrooms, oyster sauce, jasmine rice", protein:44, carbs:48, fat:6, tags:["fish","asian","quick"] },
+    { name:"Tuna stuffed peppers", emoji:"🫑", desc:"2 cans tuna, 2 roasted bell peppers, brown rice, herbs", protein:48, carbs:38, fat:8, tags:["fish","low-carb","quick"] },
+    { name:"Sardine & tomato pasta", emoji:"🍝", desc:"1 can sardines, whole wheat pasta, cherry tomatoes, capers", protein:40, carbs:52, fat:14, tags:["fish","omega-3","quick"] },
+
+    // Plant-based boosters
+    { name:"Edamame & chicken bowl", emoji:"🫛", desc:"150g chicken, 100g edamame, brown rice, sesame dressing", protein:52, carbs:48, fat:12, tags:["chicken","asian"] },
+    { name:"Lentil & chicken soup", emoji:"🍲", desc:"150g chicken, red lentils, tomatoes, cumin broth, crusty bread", protein:48, carbs:50, fat:8, tags:["chicken","soup","filling"] },
+    { name:"Chicken & chickpea bowl", emoji:"🫘", desc:"150g chicken breast, roasted chickpeas, couscous, harissa", protein:52, carbs:52, fat:10, tags:["chicken","mediterranean"] },
+    { name:"Beef & lentil bowl", emoji:"🥗", desc:"120g lean beef, green lentils, roasted veg, tahini", protein:48, carbs:48, fat:12, tags:["beef","filling"] },
   ],
+
   dinner: [
-    { name:"Baked salmon & sweet potato", emoji:"🐟", desc:"200g salmon fillet, roasted sweet potato, steamed broccoli", protein:46, carbs:42, fat:16, tags:["omega-3","quick"] },
-    { name:"Chicken breast & rice", emoji:"🍗", desc:"250g grilled chicken breast, brown rice, green beans", protein:58, carbs:48, fat:8, tags:["classic","high-protein"] },
-    { name:"Lean beef & vegetable bowl", emoji:"🥩", desc:"200g 90% lean ground beef, roasted veg, quinoa", protein:52, carbs:40, fat:14, tags:["filling","high-protein"] },
-    { name:"Turkey mince stir-fry", emoji:"🥬", desc:"200g turkey mince, broccoli, snap peas, garlic, soy, rice", protein:50, carbs:46, fat:10, tags:["quick","lean"] },
-    { name:"Shrimp & vegetable curry", emoji:"🍛", desc:"250g shrimp, light coconut milk, spinach, brown rice", protein:46, carbs:50, fat:10, tags:["flavorful","quick"] },
-    { name:"Tuna steak & potatoes", emoji:"🐡", desc:"200g tuna steak, roasted potatoes, asparagus, lemon butter", protein:52, carbs:38, fat:12, tags:["omega-3","restaurant-feel"] },
-    { name:"Chicken tikka & rice", emoji:"🍲", desc:"200g chicken breast, light tikka sauce, basmati rice", protein:54, carbs:52, fat:10, tags:["flavorful","quick"] },
-    { name:"Beef bolognese", emoji:"🍝", desc:"150g lean beef mince, whole wheat pasta, tomato sauce", protein:48, carbs:58, fat:12, tags:["comfort","filling"] },
-    { name:"Grilled chicken & sweet potato", emoji:"🍠", desc:"220g chicken thigh, roasted sweet potato, mixed salad", protein:54, carbs:44, fat:12, tags:["balanced","quick"] },
-    { name:"Beef & broccoli bowl", emoji:"🥦", desc:"180g lean beef, steamed broccoli, garlic, jasmine rice", protein:50, carbs:42, fat:12, tags:["quick","high-protein"] },
+    // Chicken
+    { name:"Chicken breast & brown rice", emoji:"🍗", desc:"250g grilled chicken breast, brown rice, steamed green beans", protein:58, carbs:48, fat:8, tags:["chicken","classic","high-protein"] },
+    { name:"Chicken tikka masala", emoji:"🍲", desc:"200g chicken breast, light tikka sauce, basmati rice, naan", protein:54, carbs:56, fat:12, tags:["chicken","indian"] },
+    { name:"Grilled chicken & sweet potato", emoji:"🍠", desc:"220g chicken thigh, roasted sweet potato, mixed salad", protein:54, carbs:44, fat:12, tags:["chicken","balanced"] },
+    { name:"Chicken stir-fry with noodles", emoji:"🍜", desc:"200g chicken breast, egg noodles, broccoli, soy-ginger sauce", protein:52, carbs:52, fat:10, tags:["chicken","asian","quick"] },
+    { name:"Stuffed chicken breast", emoji:"🍗", desc:"200g chicken stuffed with spinach, sun-dried tomato, roasted veg", protein:50, carbs:24, fat:14, tags:["chicken","low-carb"] },
+    { name:"Chicken & mushroom risotto", emoji:"🍚", desc:"180g chicken breast, arborio rice, mushrooms, parmesan", protein:52, carbs:58, fat:12, tags:["chicken","italian"] },
+    { name:"Lemon garlic chicken thighs", emoji:"🍋", desc:"240g chicken thighs, roasted potatoes, asparagus, lemon butter", protein:52, carbs:40, fat:18, tags:["chicken","quick"] },
+    { name:"Chicken souvlaki & rice", emoji:"🫒", desc:"220g chicken skewers, tzatziki, brown rice, Greek salad", protein:54, carbs:48, fat:12, tags:["chicken","greek"] },
+    { name:"Chicken fajita bowl", emoji:"🌶", desc:"200g chicken breast, peppers, onion, brown rice, salsa", protein:52, carbs:50, fat:10, tags:["chicken","mexican"] },
+    { name:"Butter chicken", emoji:"🍛", desc:"200g chicken breast, creamy tomato curry, basmati rice", protein:52, carbs:54, fat:16, tags:["chicken","indian"] },
+    { name:"Chicken & broccoli bake", emoji:"🥦", desc:"220g chicken breast, broccoli, light cream sauce, brown rice", protein:54, carbs:44, fat:12, tags:["chicken","filling"] },
+    { name:"Chicken & black bean bowl", emoji:"🫘", desc:"200g chicken breast, black beans, corn, brown rice, salsa", protein:56, carbs:54, fat:10, tags:["chicken","mexican"] },
+    { name:"Teriyaki chicken bowl", emoji:"🍱", desc:"220g chicken thigh, teriyaki glaze, steamed broccoli, jasmine rice", protein:54, carbs:52, fat:12, tags:["chicken","japanese"] },
+    { name:"Chicken & vegetable soup", emoji:"🍲", desc:"200g chicken breast, carrots, celery, noodles, chicken broth", protein:48, carbs:40, fat:8, tags:["chicken","soup","comforting"] },
+
+    // Beef
+    { name:"Lean beef & vegetable bowl", emoji:"🥩", desc:"200g 90% lean ground beef, roasted veg, quinoa", protein:52, carbs:40, fat:14, tags:["beef","high-protein"] },
+    { name:"Beef bolognese", emoji:"🍝", desc:"150g lean beef mince, whole wheat pasta, tomato sauce", protein:48, carbs:58, fat:12, tags:["beef","italian","comfort"] },
+    { name:"Beef & broccoli bowl", emoji:"🥦", desc:"180g lean beef, steamed broccoli, garlic, jasmine rice", protein:50, carbs:42, fat:12, tags:["beef","asian","quick"] },
+    { name:"Beef steak & potatoes", emoji:"🥩", desc:"200g sirloin steak, roasted baby potatoes, green salad", protein:52, carbs:36, fat:18, tags:["beef","classic"] },
+    { name:"Beef tacos (dinner)", emoji:"🌮", desc:"180g seasoned beef mince, 3 corn tortillas, pico, avocado", protein:48, carbs:44, fat:20, tags:["beef","mexican"] },
+    { name:"Beef & sweet potato mash", emoji:"🥔", desc:"180g lean beef mince, sweet potato mash, steamed kale", protein:50, carbs:46, fat:14, tags:["beef","comfort"] },
+    { name:"Beef chili bowl", emoji:"🫙", desc:"150g lean beef, kidney beans, tomatoes, spices, brown rice", protein:50, carbs:54, fat:12, tags:["beef","american","filling"] },
+    { name:"Beef & mushroom stir-fry", emoji:"🍄", desc:"180g lean beef strips, mixed mushrooms, oyster sauce, jasmine rice", protein:48, carbs:46, fat:12, tags:["beef","asian"] },
+    { name:"Beef kebab platter", emoji:"🥙", desc:"180g beef kofta skewers, tabbouleh, hummus, pita", protein:50, carbs:46, fat:16, tags:["beef","middle-eastern"] },
+    { name:"Beef & egg fried rice", emoji:"🍚", desc:"150g lean beef, 2 eggs, brown rice, soy sauce, vegetables", protein:50, carbs:50, fat:14, tags:["beef","asian","eggs"] },
+    { name:"Moussaka (lean)", emoji:"🍆", desc:"150g lean beef mince, eggplant, light béchamel, tomato", protein:46, carbs:36, fat:16, tags:["beef","greek"] },
+
+    // Turkey
+    { name:"Turkey mince stir-fry", emoji:"🥬", desc:"200g turkey mince, broccoli, snap peas, garlic, soy, rice", protein:50, carbs:46, fat:10, tags:["turkey","asian","quick"] },
+    { name:"Turkey bolognese", emoji:"🍝", desc:"180g turkey mince, whole wheat pasta, marinara sauce", protein:50, carbs:56, fat:10, tags:["turkey","italian","lean"] },
+    { name:"Turkey & sweet potato bake", emoji:"🍠", desc:"200g turkey breast, roasted sweet potato, Brussels sprouts", protein:52, carbs:44, fat:10, tags:["turkey","filling"] },
+    { name:"Turkey meatballs & pasta", emoji:"🍝", desc:"6 large turkey meatballs, whole wheat spaghetti, tomato sauce", protein:52, carbs:58, fat:12, tags:["turkey","italian"] },
+    { name:"Turkey chili", emoji:"🫘", desc:"180g turkey mince, kidney beans, corn, tomatoes, spices", protein:50, carbs:48, fat:8, tags:["turkey","american","filling"] },
+    { name:"Turkey & quinoa stuffed peppers", emoji:"🫑", desc:"160g turkey mince, quinoa, tomatoes, stuffed in bell peppers", protein:48, carbs:40, fat:10, tags:["turkey","low-carb"] },
+    { name:"Turkey breast & roasted veg", emoji:"🥦", desc:"220g turkey breast, roasted broccoli, carrots, sweet potato", protein:54, carbs:40, fat:8, tags:["turkey","healthy","quick"] },
+
+    // Fish & Seafood
+    { name:"Baked salmon & sweet potato", emoji:"🐟", desc:"200g salmon fillet, roasted sweet potato, steamed broccoli", protein:46, carbs:42, fat:16, tags:["fish","omega-3"] },
+    { name:"Tuna steak & potatoes", emoji:"🐡", desc:"200g tuna steak, roasted potatoes, asparagus, lemon butter", protein:52, carbs:38, fat:12, tags:["fish","omega-3","restaurant-feel"] },
+    { name:"Shrimp & vegetable curry", emoji:"🍛", desc:"250g shrimp, light coconut milk, spinach, brown rice", protein:46, carbs:50, fat:10, tags:["fish","thai","flavorful"] },
+    { name:"Garlic butter shrimp & pasta", emoji:"🍝", desc:"220g shrimp, whole wheat pasta, garlic butter, cherry tomatoes", protein:46, carbs:52, fat:14, tags:["fish","italian","quick"] },
+    { name:"Salmon teriyaki bowl", emoji:"🍱", desc:"200g salmon, teriyaki glaze, broccoli, jasmine rice", protein:48, carbs:52, fat:18, tags:["fish","japanese","omega-3"] },
+    { name:"Baked cod & vegetables", emoji:"🐟", desc:"220g cod fillet, roasted Mediterranean veg, quinoa", protein:48, carbs:38, fat:8, tags:["fish","lean","mediterranean"] },
+    { name:"Shrimp fried rice", emoji:"🍚", desc:"200g shrimp, 2 eggs, brown rice, soy sauce, spring onion", protein:44, carbs:50, fat:10, tags:["fish","asian","eggs"] },
+    { name:"Tuna & pasta bake", emoji:"🍝", desc:"2 cans tuna, whole wheat pasta, light cream sauce, broccoli", protein:48, carbs:54, fat:12, tags:["fish","comfort","filling"] },
+    { name:"Sea bass & roasted veg", emoji:"🐠", desc:"200g sea bass fillet, roasted courgette, tomatoes, brown rice", protein:46, carbs:38, fat:10, tags:["fish","lean","mediterranean"] },
+    { name:"Prawn & chorizo paella", emoji:"🥘", desc:"180g prawns, 40g lean chorizo, paella rice, saffron broth", protein:46, carbs:52, fat:12, tags:["fish","spanish"] },
+    { name:"Tuna stuffed sweet potato", emoji:"🥔", desc:"2 cans tuna, 2 large sweet potatoes, salsa, spring onion", protein:48, carbs:52, fat:8, tags:["fish","quick","filling"] },
+    { name:"Salmon & lentil bowl", emoji:"🫘", desc:"180g salmon, green lentils, roasted veg, mustard dressing", protein:50, carbs:42, fat:16, tags:["fish","omega-3"] },
+    { name:"Mackerel & brown rice bowl", emoji:"🐡", desc:"2 mackerel fillets, brown rice, roasted peppers, lemon", protein:48, carbs:44, fat:18, tags:["fish","omega-3","budget"] },
+
+    // International
+    { name:"Chicken & chickpea curry", emoji:"🍛", desc:"180g chicken, chickpeas, tomato-spice sauce, basmati rice", protein:52, carbs:58, fat:10, tags:["chicken","indian","filling"] },
+    { name:"Beef bibimbap", emoji:"🍲", desc:"150g lean beef, mixed veg, brown rice, gochujang, egg", protein:48, carbs:52, fat:14, tags:["beef","korean","eggs"] },
+    { name:"Chicken ramen", emoji:"🍜", desc:"180g chicken breast, ramen noodles, soft egg, bok choy, miso broth", protein:52, carbs:54, fat:12, tags:["chicken","japanese","eggs"] },
+    { name:"Lamb & vegetable tagine", emoji:"🫕", desc:"180g lean lamb, chickpeas, couscous, apricots, harissa", protein:46, carbs:56, fat:14, tags:["lamb","moroccan"] },
+    { name:"Beef pho", emoji:"🍲", desc:"150g lean beef slices, rice noodles, bean sprouts, herbs, broth", protein:44, carbs:48, fat:10, tags:["beef","vietnamese","light"] },
+    { name:"Chicken & corn soup", emoji:"🌽", desc:"180g chicken breast, sweet corn, egg drop, noodles, ginger broth", protein:48, carbs:44, fat:8, tags:["chicken","asian","soup","eggs"] },
   ]
 };
 
 const TYPES = ["breakfast","lunch","dinner"];
+const ALL_TAGS = [...new Set(Object.values(MEALS).flatMap(arr => arr.flatMap(m => m.tags)))].sort();
+
 let current = {};
-let saved = JSON.parse(localStorage.getItem("pp_plans")||"[]");
+let activeFilters = new Set();
+let saved = JSON.parse(localStorage.getItem("pp_plans_v2")||"[]");
 
 function rnd(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
+function getPool(type){
+  if(!activeFilters.size) return MEALS[type];
+  return MEALS[type].filter(m => m.tags.some(t => activeFilters.has(t)));
+}
+
 function shuffleAll(){
-  TYPES.forEach(t=>{ current[t]=rnd(MEALS[t]); });
+  TYPES.forEach(t=>{
+    const pool = getPool(t);
+    if(pool.length) current[t] = rnd(pool);
+    else current[t] = rnd(MEALS[t]);
+  });
   renderMeals(); updateTotals();
 }
 
 function reroll(type){
-  const pool=MEALS[type].filter(d=>d.name!==(current[type]||{}).name);
-  current[type]=rnd(pool.length?pool:MEALS[type]);
+  const pool = getPool(type).filter(d=>d.name!==(current[type]||{}).name);
+  const fallback = MEALS[type].filter(d=>d.name!==(current[type]||{}).name);
+  current[type] = rnd(pool.length ? pool : (fallback.length ? fallback : MEALS[type]));
   renderMeals(); updateTotals();
 }
 
 function renderMeals(){
-  document.getElementById("meals-col").innerHTML=TYPES.map(type=>{
-    const d=current[type]; if(!d) return "";
+  document.getElementById("meals-col").innerHTML = TYPES.map(type=>{
+    const d = current[type]; if(!d) return "";
     return `<div class="meal-card pop">
       <div class="meal-head">
         <span class="meal-type-label">${type}</span>
@@ -400,55 +450,78 @@ function renderMeals(){
 }
 
 function updateTotals(){
-  const vals=TYPES.map(t=>current[t]).filter(Boolean);
+  const vals = TYPES.map(t=>current[t]).filter(Boolean);
   if(!vals.length) return;
-  const p=vals.reduce((s,d)=>s+d.protein,0);
-  const c=vals.reduce((s,d)=>s+d.carbs,0);
-  const f=vals.reduce((s,d)=>s+d.fat,0);
-  const pct=Math.min(Math.round(p/150*100),100);
-  document.getElementById("prot-num").textContent=p+"g";
-  document.getElementById("prog-fill").style.width=pct+"%";
-  document.getElementById("prog-fill").style.background=p>=150?"#c8f135":p>=100?"#ff9a3c":"#ff4d4d";
-  document.getElementById("prog-pct").textContent=pct+"% of goal";
-  document.getElementById("prog-remain").textContent=p>=150?"✓ Goal reached!":Math.max(150-p,0)+"g remaining";
-  document.getElementById("m-p").textContent=p;
-  document.getElementById("m-c").textContent=c;
-  document.getElementById("m-f").textContent=f;
-  document.getElementById("over-warn").style.display=p>165?"block":"none";
-  document.getElementById("breakdown").innerHTML=TYPES.map(type=>{
+  const p = vals.reduce((s,d)=>s+d.protein,0);
+  const c = vals.reduce((s,d)=>s+d.carbs,0);
+  const f = vals.reduce((s,d)=>s+d.fat,0);
+  const pct = Math.min(Math.round(p/150*100),100);
+  document.getElementById("prot-num").textContent = p+"g";
+  document.getElementById("prog-fill").style.width = pct+"%";
+  document.getElementById("prog-fill").style.background = p>=150?"#c8f135":p>=100?"#ff9a3c":"#ff4d4d";
+  document.getElementById("prog-pct").textContent = pct+"% of goal";
+  document.getElementById("prog-remain").textContent = p>=150?"✓ Goal reached!":Math.max(150-p,0)+"g remaining";
+  document.getElementById("m-p").textContent = p;
+  document.getElementById("m-c").textContent = c;
+  document.getElementById("m-f").textContent = f;
+  document.getElementById("over-warn").style.display = p>165?"block":"none";
+  document.getElementById("breakdown").innerHTML = TYPES.map(type=>{
     const d=current[type]; if(!d) return "";
     return `<div class="breakdown-row">
       <span class="breakdown-label">${type}</span>
-      <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${Math.round(d.protein/60*100)}%"></div></div>
+      <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${Math.round(d.protein/65*100)}%"></div></div>
       <span class="breakdown-val">${d.protein}g</span>
     </div>`;
   }).join("");
+
+  // Stats
+  const total = Object.values(MEALS).reduce((s,a)=>s+a.length,0);
+  const filtered = TYPES.reduce((s,t)=>s+getPool(t).length,0);
+  document.getElementById("stat-total").textContent = total;
+  document.getElementById("stat-filtered").textContent = activeFilters.size ? filtered : total;
+}
+
+function renderFilters(){
+  // Show only useful high-level filters
+  const topFilters = ["quick","no-cook","low-carb","high-protein","omega-3","eggs","chicken","beef","turkey","fish","asian","italian","mexican","mediterranean","filling"];
+  document.getElementById("filter-bar").innerHTML =
+    `<span style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;padding:5px 0;align-self:center;">Filter:</span>` +
+    topFilters.map(tag=>
+      `<button class="filter-btn ${activeFilters.has(tag)?'active':''}" onclick="toggleFilter('${tag}')">${tag}</button>`
+    ).join("");
+}
+
+function toggleFilter(tag){
+  if(activeFilters.has(tag)) activeFilters.delete(tag);
+  else activeFilters.add(tag);
+  renderFilters();
+  shuffleAll();
 }
 
 function savePlan(){
-  const vals=TYPES.map(t=>current[t]).filter(Boolean);
+  const vals = TYPES.map(t=>current[t]).filter(Boolean);
   if(vals.length<3){ toast("Shuffle your meals first!"); return; }
-  const p=vals.reduce((s,d)=>s+d.protein,0);
-  const date=new Date().toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
+  const p = vals.reduce((s,d)=>s+d.protein,0);
+  const date = new Date().toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
   saved.unshift({date,protein:p,meals:TYPES.map(t=>current[t].name),emojis:TYPES.map(t=>current[t].emoji)});
   if(saved.length>10) saved.pop();
-  localStorage.setItem("pp_plans",JSON.stringify(saved));
+  localStorage.setItem("pp_plans_v2",JSON.stringify(saved));
   renderHistory(); toast("Plan saved!");
 }
 
 function deletePlan(i){
   saved.splice(i,1);
-  localStorage.setItem("pp_plans",JSON.stringify(saved));
+  localStorage.setItem("pp_plans_v2",JSON.stringify(saved));
   renderHistory();
 }
 
 function renderHistory(){
-  const el=document.getElementById("hist-list");
+  const el = document.getElementById("hist-list");
   if(!saved.length){
     el.innerHTML=`<div class="empty-hist">No saved plans yet.<br>Shuffle and save your first plan!</div>`;
     return;
   }
-  el.innerHTML=saved.map((p,i)=>`
+  el.innerHTML = saved.map((p,i)=>`
     <div class="hist-item">
       <div class="hist-top">
         <span class="hist-date">${p.date}</span>
@@ -467,6 +540,11 @@ function toast(msg){
   setTimeout(()=>el.classList.remove("show"),2400);
 }
 
+// Init
+const total = Object.values(MEALS).reduce((s,a)=>s+a.length,0);
+document.getElementById("stat-total").textContent = total;
+document.getElementById("stat-filtered").textContent = total;
+renderFilters();
 shuffleAll();
 renderHistory();
 </script>
